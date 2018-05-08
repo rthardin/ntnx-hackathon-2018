@@ -16,14 +16,13 @@ def main():
 def cmd():
   global action_queue
 
-  request_data = request.get_json()
-  print request_data
-  action = request_data.get("params")
-
-  if not action:
-    raise ValueError("Action is missing - got %r" % action)
-
   if request.method == 'POST':
+    request_data = request.get_json()
+    print request_data
+    action = request_data.get("params")
+
+    if not action:
+      raise ValueError("Action is missing - got %r" % action)
     action_queue.append(action)
     return "Request received! Outstanding requests: %d" % len(action_queue)
 
