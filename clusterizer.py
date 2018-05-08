@@ -71,7 +71,7 @@ def get_vms_status():
             sender="zero_cool@aol.com",
             subject="Whoa, %s on, %s off" % (on_str, off_str),
             body="Nice watch - can you hack one of those Gibson's with it?\n"
-                 "\nXOXO,\n\n/zero_cool")
+                 "\nPeace,\n\n/zero_cool")
 
 
 if __name__ == '__main__':
