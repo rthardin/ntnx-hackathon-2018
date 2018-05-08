@@ -9,7 +9,7 @@ VM_UUID = "314cecaf-03cc-437d-9828-32e99fd474a9"
 
 def send_mail(address, sender, subject, body):
   cmd = "echo \"%s\" | mail -v -s \"%s\" -r \"%s\" %s" % (
-    address, subject, sender, body)
+    body, subject, sender, address)
   subprocess.check_call(cmd, shell=True)
 
 
