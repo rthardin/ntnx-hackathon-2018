@@ -1,5 +1,9 @@
-import requests
+from flask import Flask
 
 
-if __name__ == "__main__":
-  print "GCP Cloudalizer is go!"
+app = Flask(__name__)
+
+
+@app.route("/")
+def hello():
+  return "Nutanix Hackathon 2018 - Did It All For The Cookies"
