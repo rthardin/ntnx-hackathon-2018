@@ -40,7 +40,7 @@ def toggle_vm_power():
   send_mail(address="7209332478@vtext.com",
             sender="zero_cool@aol.com",
             subject="Hey bro, your VM turned %s" % transition.upper(),
-            body="https://www.youtube.com/watch?v=wlMvYx11V-Y")
+            body="Boot up, or shut up!\n\nhttps://www.youtube.com/watch?v=wlMvYx11V-Y")
 
 
 if __name__ == '__main__':
