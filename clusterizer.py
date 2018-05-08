@@ -1,8 +1,8 @@
-import requests
 import subprocess
+import sys
 import time
 
-import sys
+import requests
 
 CLOUDALIZER_IP = "35.196.167.141"
 CLUSTER_IP = "10.21.55.37"
@@ -45,6 +45,32 @@ def toggle_vm_power():
             body="Boot up, or shut up!\n\nXOXO,\n\n/zero_cool")
 
 
+def get_vms_status():
+  s = requests.Session()
+  s.auth = ('admin', 'techX2018!')
+
+  url = "https://%s:9440/api/nutanix/v2.0/vms" % CLUSTER_IP
+  response = s.get(url, verify=False)
+  vms_info = response.json()
+
+  powered_on_vms = []
+  powered_off_vms = []
+  for vm_info in vms_info.get("entities", []):
+    if vm_info.get("power_state", "").lower() == "on":
+      powered_on_vms.append(vm_info)
+    else:
+      powered_off_vms.append(vm_info)
+
+  print "There are %d on, %d off VMs" % (len(powered_on_vms),
+                                         len(powered_off_vms))
+  send_mail(address="7209332478@vtext.com",
+            sender="zero_cool@aol.com",
+            subject="Whoa, %d VMs are on, %d are off" % (
+              len(powered_on_vms), len(powered_off_vms)),
+            body="Nice watch - can you hack one of those Gibson's with it?\n"
+                 "\nXOXO,\n\n/zero_cool")
+
+
 if __name__ == '__main__':
   while True:
     try:
@@ -54,6 +80,8 @@ if __name__ == '__main__':
         print "Got action '%s'" % action
         if action == "power":
           toggle_vm_power()
+        elif action == "availability":
+          get_vms_status()
         else:
           print "Unknown action '%s'" % action
       else:
@@ -63,4 +91,3 @@ if __name__ == '__main__':
       print "Got an exception"
       print traceback
       print "Continuing"
-
