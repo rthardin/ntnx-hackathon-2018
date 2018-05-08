@@ -15,6 +15,8 @@ def main():
 @app.route("/cmd", methods=['GET', 'POST'])
 def cmd():
   global outstanding_requests
+  request_data = request.get_json()
+  print request_data
   if request.method == 'POST':
     outstanding_requests += 1
     return "Request received! Outstanding requests: %d" % outstanding_requests

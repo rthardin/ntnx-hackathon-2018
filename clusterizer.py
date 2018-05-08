@@ -2,6 +2,8 @@ import requests
 import subprocess
 import time
 
+import sys
+
 CLOUDALIZER_IP = "35.196.167.141"
 CLUSTER_IP = "10.21.55.37"
 VM_UUID = "314cecaf-03cc-437d-9828-32e99fd474a9"
@@ -45,9 +47,16 @@ def toggle_vm_power():
 
 if __name__ == '__main__':
   while True:
-    response = requests.get("http://%s/cmd" % CLOUDALIZER_IP)
-    if response.status_code == 200:
-      print "Something to do - cycling VM power"
-      toggle_vm_power()
-    else:
-      time.sleep(5)
+    try:
+      response = requests.get("http://%s/cmd" % CLOUDALIZER_IP)
+      if response.status_code == 200:
+        print "Something to do - cycling VM power"
+        toggle_vm_power()
+      else:
+        time.sleep(5)
+    except Exception as exc:
+      type, value, traceback = sys.exc_info()
+      print "Got an exception"
+      print traceback
+      print "Continuing"
+
