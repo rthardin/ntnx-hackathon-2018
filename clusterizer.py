@@ -30,7 +30,7 @@ def toggle_vm_power():
 
 if __name__ == '__main__':
   while True:
-    response = requests.get(CLOUDALIZER_IP + "/cmd")
+    response = requests.get("http://%s/cmd" % CLOUDALIZER_IP)
     if response.status_code == 200:
       print "Something to do - cycling VM power"
       toggle_vm_power()
