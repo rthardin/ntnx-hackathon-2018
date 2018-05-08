@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
   url = "https://%s:9440/api/nutanix/v2.0/vms/%s" % (
     CLUSTER_IP, VM_UUID)
-  response = s.get(url)
+  response = s.get(url, verify=False)
   print response
   vm_info = response.json()
   if vm_info.get("power_state", "").lower() == "on":
