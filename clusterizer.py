@@ -74,6 +74,33 @@ def get_vms_status():
                  "\nPeace,\n\n/zero_cool")
 
 
+def get_host_alerts():
+  s = requests.Session()
+  s.auth = ('admin', 'techX2018!')
+
+  url = "https://%s:9440/api/nutanix/v2.0/hosts/alerts" % CLUSTER_IP
+  response = s.get(url, verify=False)
+  host_alerts_info = response.json()
+
+  all_alerts = []
+  acked_alerts = []
+  for host_alert in host_alerts_info.get("entities", []):
+    if host_alert.get("acknowledged"):
+      acked_alerts.append(host_alert)
+    else:
+      all_alerts.append(host_alert)
+
+  if len(all_alerts) - len(acked_alerts) == 0:
+    subject = "No host alerts - keep hacking, dude!"
+  else:
+    subject = "%d outstanding alerts :(" % (len(all_alerts) - len(acked_alerts))
+
+  send_mail(address="7209332478@vtext.com",
+            sender="zero_cool@aol.com",
+            subject=subject,
+            body="/zero_cool")
+
+
 if __name__ == '__main__':
   while True:
     try:
@@ -85,6 +112,8 @@ if __name__ == '__main__':
           toggle_vm_power()
         elif action == "availability":
           get_vms_status()
+        elif action == "alert":
+          get_host_alerts()
         else:
           print "Unknown action '%s'" % action
       else:
