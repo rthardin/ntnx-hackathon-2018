@@ -63,10 +63,13 @@ def get_vms_status():
 
   print "There are %d on, %d off VMs" % (len(powered_on_vms),
                                          len(powered_off_vms))
+  on_str = "%d %s" % (len(powered_on_vms),
+                      "VM is" if len(powered_on_vms) == 1 else "VMs are")
+  off_str = "%d %s" % (len(powered_off_vms),
+                      "VM is" if len(powered_off_vms) == 1 else "VMs are")
   send_mail(address="7209332478@vtext.com",
             sender="zero_cool@aol.com",
-            subject="Whoa, %d VMs are on, %d are off" % (
-              len(powered_on_vms), len(powered_off_vms)),
+            subject="Whoa, %s on, %s off" % (on_str, off_str),
             body="Nice watch - can you hack one of those Gibson's with it?\n"
                  "\nXOXO,\n\n/zero_cool")
 
