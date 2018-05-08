@@ -13,7 +13,7 @@ def main():
 
 
 @app.route("/cmd")
-def main():
+def cmd():
   global outstanding_requests
   if request.method == 'POST':
     outstanding_requests += 1
