@@ -12,7 +12,7 @@ def main():
   return "Nutanix Hackathon 2018 - Did It All For The Cookies"
 
 
-@app.route("/cmd")
+@app.route("/cmd", methods=['GET', 'POST'])
 def cmd():
   global outstanding_requests
   if request.method == 'POST':
