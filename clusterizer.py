@@ -17,13 +17,13 @@ def toggle_vm_power():
   if vm_info.get("power_state", "").lower() == "on":
     print "VM is ON,  and will be powered OFF"
     response = s.post(url + "/set_power_state",
-                      json={"transition": "ON"},
+                      json={"transition": "OFF"},
                       verify=False)
     task_info = response.json()
   else:
     print "VM is OFF, and nwill be powered ON"
     response = s.post(url + "/set_power_state",
-                      json={"transition": "OFF"},
+                      json={"transition": "ON"},
                       verify=False)
     task_info = response.json()
 
