@@ -4,7 +4,7 @@ from flask import Flask, request, Response
 app = Flask(__name__)
 
 
-outstanding_requests = 0
+action_queue = []
 
 
 @app.route("/")
@@ -14,18 +14,27 @@ def main():
 
 @app.route("/cmd", methods=['GET', 'POST'])
 def cmd():
-  global outstanding_requests
+  global action_queue
+
   request_data = request.get_json()
   print request_data
+  action = request_data.get("params")
+
+  if not action:
+    raise ValueError("Action is missing - got %r" % action)
+
   if request.method == 'POST':
-    outstanding_requests += 1
-    return "Request received! Outstanding requests: %d" % outstanding_requests
+    action_queue.append(action)
+    return "Request received! Outstanding requests: %d" % len(action_queue)
+
   elif request.method == 'GET':
-    if outstanding_requests > 0:
-      outstanding_requests -= 1
-      return Response("Time to do work", status=200)
+    if len(action_queue):
+      action = action_queue.pop()
+      print "Sending action '%s' to clusterizer" % action
+      return Response(action, status=200, mimetype='application/json')
     else:
       return Response("Nothing to do - try again later", status=503)
+
   else:
     return Response("Method not supported", status=405)
 

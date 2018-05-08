@@ -50,8 +50,12 @@ if __name__ == '__main__':
     try:
       response = requests.get("http://%s/cmd" % CLOUDALIZER_IP)
       if response.status_code == 200:
-        print "Something to do - cycling VM power"
-        toggle_vm_power()
+        action = response.json()
+        print "Got action '%s'" % action
+        if action == "power":
+          toggle_vm_power()
+        else:
+          print "Unknown action '%s'" % action
       else:
         time.sleep(5)
     except Exception as exc:
